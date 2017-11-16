@@ -1,5 +1,8 @@
+(defpackage :timer
+  (:use :cl))
 
-(load "~/.sbclrc")
+(in-package :timer)
+
 (ql:quickload "split-sequence")
 
 
