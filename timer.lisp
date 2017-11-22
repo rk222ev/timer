@@ -13,7 +13,7 @@
   "Clears and prints the remaining seconds to timer completion"
   (when (not (= 0 n))
     (cls)
-    (print (format t "Seconds remaining: ~d~%" n))
+    (format t "Seconds remaining: ~d~%" n)
     (sleep 1)
     (count-print (- n 1))))
 
