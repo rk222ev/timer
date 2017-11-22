@@ -1,14 +1,7 @@
-(defpackage :timer
-  (:use #:cl))
-
 (in-package #:timer)
 
-(load (merge-pathnames "quicklisp/setup.lisp" (user-homedir-pathname)))
-(ql:quickload "split-sequence")
-
-
 (defun split (delimiter str)
-  (split-sequence:split-sequence delimiter str))
+  (split-sequence delimiter str))
 
 
 (defun cls ()
