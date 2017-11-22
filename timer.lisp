@@ -1,9 +1,5 @@
 (in-package #:timer)
 
-(defun split (delimiter str)
-  (split-sequence delimiter str))
-
-
 (defun cls ()
   "Clears the terminal"
   (format t "~A[H~@*~A[J" #\escape))
@@ -26,7 +22,7 @@
 
 
 (defun to-seconds (str)
-  (destructuring-bind (seconds minutes) (reverse (split-sequence  #\: str))
+  (destructuring-bind (seconds minutes) (reverse (split  ":" str))
     (+ (* (parse-integer minutes) 60)
       (parse-integer seconds))))
 
