@@ -20,13 +20,19 @@
 
 (defun notification ()
   (sb-ext:run-program
-      "/Users/rpkn/Projects/go/bin/noti"
-      '("-m" "Times up!")
-      :output *standard-output*))
+    "/Users/rpkn/Projects/go/bin/noti"
+    '("-m" "Times up!")
+    :output *standard-output*))
+
+
+(defun to-seconds (str)
+  (destructuring-bind (seconds minutes) (reverse (split-sequence  #\: str))
+    (+ (* (parse-integer minutes) 60)
+      (parse-integer seconds))))
 
 
 (defun main (argv)
-  (let ((time (parse-integer (cadr argv))))
+  (let ((time (to-seconds (cadr argv))))
     (count-print time)
-    (cls)
-    (notification)))
+    '(cls)
+    '(notification)))
