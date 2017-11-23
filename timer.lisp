@@ -24,13 +24,20 @@
 
 (defun to-seconds (str)
   "Takes time in the format mm:ss and transforms it to seconds"
-  (destructuring-bind (seconds minutes) (reverse (split  ":" str))
-    (+ (* (parse-integer minutes) 60)
-      (parse-integer seconds))))
+  (let* ((time (reverse (split ":" str)))
+         (params (length time)))
+    (cond
+      ((= 1 params) (parse-integer (car time)))
+      ((= 2 params)
+        (destructuring-bind (seconds minutes) time
+          (+ (* (parse-integer minutes) 60)
+            (parse-integer seconds))))
+      (t (format t "You must specify a time in the format \"MM:SS\".~%") 0))))
 
 
 (defun main (argv)
   (let ((time (to-seconds (cadr argv))))
-    (count-print time)
-    (cls)
-    (notification)))
+    (when (< 0 time)
+      (count-print time)
+      (cls)
+      (notification))))
