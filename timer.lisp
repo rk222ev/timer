@@ -15,13 +15,15 @@
 
 
 (defun notification ()
+  "Show notification for user that time is up."
   (sb-ext:run-program
-    "/Users/rpkn/Projects/go/bin/noti"
+    (merge-pathnames "Projects/go/bin/noti" (user-homedir-pathname)) ;; Find better alternative
     '("-m" "Times up!")
     :output *standard-output*))
 
 
 (defun to-seconds (str)
+  "Takes time in the format mm:ss and transforms it to seconds"
   (destructuring-bind (seconds minutes) (reverse (split  ":" str))
     (+ (* (parse-integer minutes) 60)
       (parse-integer seconds))))
@@ -30,5 +32,5 @@
 (defun main (argv)
   (let ((time (to-seconds (cadr argv))))
     (count-print time)
-    '(cls)
-    '(notification)))
+    (cls)
+    (notification)))
