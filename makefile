@@ -12,6 +12,7 @@ build:
 		--load packages.lisp \
 		--load timer.lisp \
 		--entry timer:main \
+		--compress-core \
 		--output $(TARGET)
 
 clean:
