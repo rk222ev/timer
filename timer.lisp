@@ -15,10 +15,10 @@
 
 
 (defun notification ()
-  "Show notification for user that time is up."
+  "Shows a notification using osascript."
   (sb-ext:run-program
-    (merge-pathnames "Projects/go/bin/noti" (user-homedir-pathname)) ;; Find better alternative
-    '("-m" "Times up!")
+    "/usr/bin/osascript"
+    '("-e" "display notification \"Times up!\" with Title \"Timer\" sound name \"default\"")
     :output *standard-output*))
 
 
