@@ -1,0 +1,10 @@
+* Timer
+
+  Set timer to one minute:
+#+begin_src shell
+> timer 1:00
+#+end_src
+
+** Starting SLIME repl
+- M-x slime
+- (require 'timer)
