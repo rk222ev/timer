@@ -1,15 +1,5 @@
 (in-package #:timer)
 
-;; (let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp"
-;;                         (user-homedir-pathname))))
-;;   (when (probe-file quicklisp-init)
-;;     (load quicklisp-init)))
-
-;; (ql:quickload :cl-ppcre :silent t)
-;; (require :cl-ppcre)
-
-;; (require :sb-posix)
-
 (defun echo-off ()
   (let ((tm (sb-posix:tcgetattr sb-sys:*tty*)))
     (setf (sb-posix:termios-lflag tm)
