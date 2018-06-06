@@ -4,6 +4,6 @@
   :license "MIT"
   :author "Rpkn"
   :class :package-inferred-system
-  :depends-on (#:cl-ppcre)
+  :depends-on (#:cl-ppcre #:sb-posix)
   :components ((:file "packages")
                (:file "timer")))

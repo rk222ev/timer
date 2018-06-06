@@ -8,6 +8,7 @@ build:
 	buildapp \
 		--manifest-file quicklisp-manifest.txt \
 		--load-system cl-ppcre \
+    --load-system sb-posix \
 		--load-system timer \
 		--load packages.lisp \
 		--load timer.lisp \
