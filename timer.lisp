@@ -1,12 +1,14 @@
 (in-package #:timer)
 
 (defun echo-off ()
+  "Disables terminal echoing."
   (let ((tm (sb-posix:tcgetattr sb-sys:*tty*)))
     (setf (sb-posix:termios-lflag tm)
       (logandc2 (sb-posix:termios-lflag tm) sb-posix:echo))
     (sb-posix:tcsetattr sb-sys:*tty* sb-posix:tcsanow tm)))
 
 (defun echo-on ()
+  "Enables terminal echoing."
   (let ((tm (sb-posix:tcgetattr sb-sys:*tty*)))
     (setf (sb-posix:termios-lflag tm)
       (logior (sb-posix:termios-lflag tm) sb-posix:echo))
@@ -25,7 +27,6 @@
 (defun count-up-print (&optional (n 0))
   "Prints and increments a number every second starting at 0"
   (cls)
-  (echo-off)
   (format t "~10@A~%" (format-seconds n))
   (sleep 1)
   (count-up-print (+ n 1)))
@@ -34,7 +35,6 @@
   "Clears and prints the remaining seconds to timer completion"
   (when (not (= 0 n))
     (cls)
-    (echo-off)
     (format t "~10@A~%" (format-seconds n))
     (sleep 1)
     (count-down-print (- n 1))))
@@ -58,26 +58,28 @@
             (parse-integer seconds))))
       (t (format t "You must specify a time in the format \"MM:SS\".~%") 0))))
 
-(defmacro with-disabled-debugger (form)
-  "Disables the debugger on C-c termination."
-  `(handler-case ((lambda () , form))
-      (sb-sys:interactive-interrupt ()
-        (sb-ext:quit))))
+(defmacro with-silenced-terminal (form)
+  "Disables debugger on C-c interrupt and turns echoing off."
+  `(progn
+     (echo-off)
+     (handler-case ((lambda ()
+                      (unwind-protect
+                        , form
+                        (echo-on))))
+       (sb-sys:interactive-interrupt ()
+         (sb-ext:quit)))))
 
 (defun count-down (time)
   "Given a time counts down to 0 then presents a notification."
-  (with-disabled-debugger
-    (when (< 0 time)
-      (count-down-print time)
-      (cls)
-      (notification))))
+  (when (< 0 time)
+    (with-silenced-terminal
+      (count-down-print time))
+    (cls)
+    (notification)))
 
 (defun track-time ()
   "Prints the accumulated time each second until interupted."
-  (with-disabled-debugger
-    (unwind-protect
-      (count-up-print)
-      (echo-on))))
+  (with-silenced-terminal (count-up-print)))
 
 (defun main (argv)
   "Expects the invocation to have one argument in either MM:SS or SS format."
