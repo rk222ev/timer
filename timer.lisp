@@ -86,3 +86,6 @@
   (if (= 1 (sb-sequence:length argv))
     (track-time)
     (count-down (to-seconds (cadr argv)))))
+
+(defun cli-main ()
+  (timer:main *posix-argv*))

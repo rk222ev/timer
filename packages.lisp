@@ -1,3 +1,3 @@
 (defpackage :timer
   (:use #:cl #:cl-ppcre)
-  (:export "MAIN"))
+  (:export "MAIN" "CLI-MAIN"))
